@@ -6,3 +6,4 @@ alunos-hibernate-envers.iml
 /src/main/resources/META-INF/persistence.xml
 .classpath
 .factorypath
+.project
