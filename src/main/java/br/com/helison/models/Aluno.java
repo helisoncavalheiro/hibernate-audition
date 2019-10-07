@@ -1,17 +1,28 @@
 package br.com.helison.models;
 
-public class Aluno {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-    private Long id;
+@Entity
+@Table(name = "alunos")
+public class Aluno extends BaseEntity{
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7004980269957894777L;
+
+    @Column
     private String nome;
+
+    @Column
     private String matricula;
+
+    @Column
     private String curso;
 
     public Aluno() {
-    }
-
-    public Long getId(){
-        return id;
     }
 
     public String getNome() {
