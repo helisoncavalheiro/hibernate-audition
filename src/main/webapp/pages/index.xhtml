@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:pretty="http://ocpsoft.com/prettyfaces"
+    xmlns:ptf5="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+    <!-- Bootstrap CSS -->
+    <h:outputStylesheet name="bootstrap/css/bootstrap.css" ptf5:rel="stylesheet"/>
+</h:head>
+<h:body>
+    <div class="container-fluid">
+        <h:messages />
+        <h4>Alunos</h4>
+        <a href="/novo" class="btn btn-primary">Cadastrar aluno</a>
+        <br />
+        <h:dataTable value="#{alunoController.alunos}" var="aluno" class="table table-dark">
+            <h:column>
+                <f:facet scope="col" name="header">ID</f:facet>
+                #{aluno.pk}
+            </h:column>
+            <h:column>
+                <f:facet scope="col" name="header">Nome</f:facet>
+                #{aluno.nome}
+            </h:column>
+            <h:column>
+                <f:facet scope="col" name="header">Matricula</f:facet>
+                #{aluno.matricula}
+            </h:column>
+            <h:column>
+                <f:facet scope="col" name="header">Curso</f:facet>
+                #{aluno.curso}
+            </h:column>
+            <h:column>
+                <f:facet scope="col" name="header">Ações</f:facet>
+                <a href="/editar?alunoId=#{aluno.pk}" class="btn btn-info">
+                    Editar
+                </a>
+            </h:column>
+        </h:dataTable>
+    </div>
+</h:body>
+
+</html>

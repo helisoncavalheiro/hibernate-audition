@@ -1,13 +1,31 @@
 package br.com.helison.controllers;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.PersistenceException;
 
-import com.opensymphony.xwork2.ActionSupport;
+import com.ocpsoft.pretty.faces.annotation.URLAction;
+import com.ocpsoft.pretty.faces.annotation.URLBeanName;
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.com.helison.models.Aluno;
 import br.com.helison.services.AlunoService;
 
-public class AlunoController extends ActionSupport{
+@ViewScoped
+@Named("alunoController")
+@URLBeanName("alunoController")
+@URLMappings(mappings = { @URLMapping(id = "alunos", pattern = "/", viewId = "/pages/index.xhtml"),
+        @URLMapping(id = "novo-aluno", pattern = "/novo", viewId = "/pages/formAluno.xhtml"),
+        @URLMapping(id = "editar-aluno", pattern = "/editar", viewId = "/pages/formAluno.xhtml") })
+public class AlunoController implements Serializable {
 
     /**
      *
@@ -15,34 +33,57 @@ public class AlunoController extends ActionSupport{
     private static final long serialVersionUID = 1L;
 
     private Aluno aluno;
-    private AlunoService alunoService;
-    private String msgErro;
 
-    public String salvar(){
-        alunoService = new AlunoService();
-        try{
-            alunoService.save(this.aluno);
-            System.out.println(this.aluno);
-            return SUCCESS;
-        }catch(PersistenceException e){
-            this.msgErro = e.getMessage();
-            return ERROR;
-        }finally{
-            alunoService.closeConnection();
-        }
-        
+    @Inject
+    private AlunoService alunoService;
+
+    private List<Aluno> alunos;
+
+    public AlunoController() {
+        aluno = new Aluno();
     }
 
-    public Aluno getAluno(){
+    public void salvar() {
+        try {
+            alunoService.save(this.aluno);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Aluno " + this.aluno.getMatricula() + " cadastrado com sucesso"));
+        } catch (PersistenceException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Aluno " + this.aluno.getMatricula() + " não foi cadastrado"));
+        }
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/");
+        } catch (IOException e) {
+
+        }
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+    }
+
+    @URLAction(mappingId = "alunos", onPostback = false)
+    public List<Aluno> todos() {
+        if (this.alunos == null || this.alunos.isEmpty()) {
+            this.alunos = alunoService.getAll();
+        }
+        return this.alunos;
+    }
+
+    @URLAction(mappingId = "editar-aluno", onPostback = false)
+    public void setAlunoByPk() {
+        String alunoId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("alunoId");
+        this.aluno = alunoService.getByPk(Long.parseLong(alunoId));
+    }
+
+    public Aluno getAluno() {
         return aluno;
     }
 
-    public String getMsgErro(){
-        return msgErro;
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
 
-    public void setAluno(Aluno aluno){
-        this.aluno = aluno;
+    public List<Aluno> getAlunos() {
+        return this.alunos;
     }
 
 }

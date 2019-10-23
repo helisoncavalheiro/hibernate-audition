@@ -9,6 +9,10 @@ public class FactoryEntityManager{
     protected EntityManagerFactory entityManagerFactory;
     protected static EntityManager entityManager;
 
+    public FactoryEntityManager() {
+        entityManager = getEntityManager();
+    }
+
 
     public EntityManagerFactory getEntityManagerFactory(){
         if(entityManagerFactory == null || !entityManagerFactory.isOpen()){
@@ -26,7 +30,7 @@ public class FactoryEntityManager{
     }
 
     public void closeConnection(){
-        if(entityManager.isOpen()){
+        if(entityManager.isOpen() && entityManager != null){
             entityManager.close();
         }
     }
