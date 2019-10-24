@@ -4,24 +4,59 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:pretty="http://ocpsoft.com/prettyfaces">
+    xmlns:pretty="http://ocpsoft.com/prettyfaces" xmlns:ptf5="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+    <!-- Bootstrap CSS -->
+    <h:outputStylesheet name="bootstrap/css/bootstrap.css" ptf5:rel="stylesheet" />
+</h:head>
+<h:body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-<body>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-info" href="/novo">Cadastrar aluno</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
     <main>
-        <h:form>
-            <label>Nome</label>
-            <h:inputText value="#{alunoController.aluno.nome}" />
-            <br/>
-            <label>Matricula</label>
-            <h:inputText value="#{alunoController.aluno.matricula}" />
-            <br/>    
-            <label>Curso</label>
-            <h:inputText value="#{alunoController.aluno.curso}" />
-            <br/>
-            <h:commandLink action="#{alunoController.salvar}">Salvar</h:commandLink>
-        </h:form>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-8 offset-md-2">
+                    <h:form>
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <h:inputText class="form-control" value="#{alunoController.aluno.nome}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Matricula</label>
+                            <h:inputText class="form-control" value="#{alunoController.aluno.matricula}" />
+                        </div>
+                        <div class="form-group">
+                            <label>Curso</label>
+                            <h:inputText class="form-control" value="#{alunoController.aluno.curso}" />
+                        </div>
+                        <h:commandLink class="btn btn-success" action="#{alunoController.salvar}">Salvar</h:commandLink>
+                    </h:form>
+                </div>
+            </div>
+        </div>
     </main>
-</body>
+</h:body>
 
 
 </html>
