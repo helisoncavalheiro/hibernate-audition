@@ -33,38 +33,43 @@
         </nav>
     </header>
     <div class="container-fluid">
-        <h:messages class="alert alert-secondary" />
         <div class="row">
-            <div class="col-sm-12 col-md-10 offset-md-1">
-                <h4>Alunos</h4>
-                <h:dataTable value="#{alunoController.alunos}" var="aluno" class="table table-bordered table-hover">
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <h3>Aluno ##{alunoController.aluno.pk}</h3>
+                <ul class="list-group">
+                    <li class="list-group-item">Nome: #{alunoController.aluno.nome}</li>
+                    <li class="list-group-item">Matrícula: #{alunoController.aluno.matricula}</li>
+                    <li class="list-group-item">Curso: #{alunoController.aluno.curso}</li>
+                </ul>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <h4>Revisões</h4>
+                <h:dataTable value="#{alunoController.alunoAudit}" var="alunoAudit"
+                    class="table table-bordered table-hover">
                     <h:column>
                         <f:facet scope="col" name="header">ID</f:facet>
-                        <a href="/aluno?alunoId=#{aluno.pk}">#{aluno.pk}</a>
+                        #{alunoAudit.pk}
                     </h:column>
                     <h:column>
                         <f:facet scope="col" name="header">Nome</f:facet>
-                        #{aluno.nome}
+                        #{alunoAudit.nome}
                     </h:column>
                     <h:column>
                         <f:facet scope="col" name="header">Matricula</f:facet>
-                        #{aluno.matricula}
+                        #{alunoAudit.matricula}
                     </h:column>
                     <h:column>
                         <f:facet scope="col" name="header">Curso</f:facet>
-                        #{aluno.curso}
-                    </h:column>
-                    <h:column>
-                        <f:facet scope="col" name="header">Ações</f:facet>
-                        <a href="/editar?alunoId=#{aluno.pk}" class="btn btn-info">
-                            Editar
-                        </a>
+                        #{alunoAudit.curso}
                     </h:column>
                 </h:dataTable>
             </div>
         </div>
     </div>
-    <script src="../res/bootstrap/js/bootstrap.js" />
 </h:body>
 
 </html>

@@ -12,6 +12,7 @@ import javax.inject.Named;
 import javax.persistence.PersistenceException;
 
 import com.ocpsoft.pretty.faces.annotation.URLAction;
+import com.ocpsoft.pretty.faces.annotation.URLActions;
 import com.ocpsoft.pretty.faces.annotation.URLBeanName;
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -24,7 +25,9 @@ import br.com.helison.services.AlunoService;
 @URLBeanName("alunoController")
 @URLMappings(mappings = { @URLMapping(id = "alunos", pattern = "/", viewId = "/pages/index.xhtml"),
         @URLMapping(id = "novo-aluno", pattern = "/novo", viewId = "/pages/formAluno.xhtml"),
-        @URLMapping(id = "editar-aluno", pattern = "/editar", viewId = "/pages/formAluno.xhtml") })
+        @URLMapping(id = "editar-aluno", pattern = "/editar", viewId = "/pages/formAluno.xhtml"),
+        @URLMapping(id = "detalhe-aluno", pattern = "/aluno", viewId = "/pages/detalheAluno.xhtml") })
+
 public class AlunoController implements Serializable {
 
     /**
@@ -33,6 +36,7 @@ public class AlunoController implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Aluno aluno;
+    private List<Aluno> alunoAudit;
 
     @Inject
     private AlunoService alunoService;
@@ -68,10 +72,12 @@ public class AlunoController implements Serializable {
         return this.alunos;
     }
 
-    @URLAction(mappingId = "editar-aluno", onPostback = false)
+    @URLActions(actions = { @URLAction(mappingId = "editar-aluno", onPostback = false),
+            @URLAction(mappingId = "detalhe-aluno", onPostback = false) })
     public void setAlunoByPk() {
         String alunoId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("alunoId");
         this.aluno = alunoService.getByPk(Long.parseLong(alunoId));
+        this.alunoAudit = alunoService.getAllRevisions(Long.parseLong(alunoId));
     }
 
     public Aluno getAluno() {
@@ -84,6 +90,10 @@ public class AlunoController implements Serializable {
 
     public List<Aluno> getAlunos() {
         return this.alunos;
+    }
+
+    public List<Aluno> getAlunoAudit(){
+        return this.alunoAudit;
     }
 
 }
